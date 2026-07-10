@@ -1,0 +1,464 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;700;800;900&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+#root, body, html {
+  width: 100%;
+  height: 100%;
+  background: #222; /* Dark background behind the hardware screen if viewed on a larger monitor */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  touch-action: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* HARDWARE LOCK: Forces the app to exactly 1080x1920 */
+.hardware-container {
+  width: 1080px;
+  height: 1920px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 0 50px rgba(0,0,0,0.5); /* Optional: helps it stand out if testing on desktop */
+}
+
+:root {
+  --brand-green-light: #5dc19b;
+  --brand-teal: #53c4c6;
+  --brand-green-bright: #6cb754;
+  --brand-white: #ffffff;
+  --brand-teal-deep: #2e7d80;
+  --brand-green-deep: #4b8f3b;
+  --brand-cream: #f4fffa;
+}
+
+.app-container {
+  width: 1080px;
+  height: 1920px;
+  background:
+    radial-gradient(circle at 15% 10%, rgba(255,255,255,0.20) 0%, rgba(255,255,255,0) 40%),
+    radial-gradient(circle at 85% 90%, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0) 45%),
+    linear-gradient(135deg, var(--brand-teal), var(--brand-green-light));
+  display: flex;
+  flex-direction: column;
+  font-family: 'Nunito', 'Arial', sans-serif;
+  color: var(--brand-white);
+  position: relative;
+  overflow: hidden;
+}
+
+
+
+/* Screen Management */
+.screen-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  padding: 40px;
+  gap: 60px;
+}
+.screen-container.justify-top {
+  justify-content: flex-start;
+  gap: 30px;
+}
+
+/* Typography & Titles */
+@keyframes titlePop {
+  0%   { transform: scale(0.6) rotate(-4deg); opacity: 0; }
+  60%  { transform: scale(1.08) rotate(2deg); opacity: 1; }
+  100% { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+@keyframes titleWiggle {
+  0%, 100% { transform: rotate(-1deg); }
+  50%      { transform: rotate(1deg); }
+}
+.main-title {
+  font-family: 'Fredoka', 'Arial', sans-serif;
+  font-size: 6.2rem;
+  font-weight: 700;
+  text-align: center;
+  line-height: 1;
+  letter-spacing: 1px;
+  color: var(--brand-white);
+  text-shadow:
+    4px 4px 0 var(--brand-teal-deep),
+    8px 10px 25px rgba(0,0,0,0.25);
+  animation: titlePop 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) both,
+             titleWiggle 4s ease-in-out 0.8s infinite;
+  transform-origin: center;
+}
+.subtitle-text {
+  font-family: 'Fredoka', 'Arial', sans-serif;
+  font-size: 3rem;
+  font-weight: 600;
+  text-align: center;
+  background: var(--brand-white);
+  color: var(--brand-teal-deep);
+  padding: 20px 40px;
+  border-radius: 60px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.subtitle-text::before,
+.subtitle-text::after {
+  content: "\1F43E";
+  font-size: 2rem;
+}
+
+/* Mascot Display */
+.mascot-display {
+  width: 600px;
+  height: 600px;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  filter: drop-shadow(0 20px 25px rgba(0,0,0,0.2));
+}
+/* Bigger hero treatment for the Welcome screen so the mascot commands the space */
+.mascot-display.mascot-hero {
+  width: 820px;
+  height: 820px;
+  filter: drop-shadow(0 28px 32px rgba(0,0,0,0.25));
+}
+@keyframes mascotJump {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-30px) rotate(-3deg); }
+}
+.mascot-jump {
+  animation: mascotJump 1.5s ease-in-out infinite;
+}
+
+/* Buttons */
+@keyframes btnGlowPulse {
+  0%, 100% { box-shadow: 0 10px 30px rgba(108, 183, 84, 0.5), 0 0 0 0 rgba(255,255,255,0.5); }
+  50%      { box-shadow: 0 10px 34px rgba(108, 183, 84, 0.65), 0 0 0 14px rgba(255,255,255,0); }
+}
+@keyframes btnEnter {
+  0%   { transform: translateY(30px) scale(0.9); opacity: 0; }
+  100% { transform: translateY(0) scale(1); opacity: 1; }
+}
+.primary-btn {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, var(--brand-green-bright), var(--brand-green-light));
+  color: var(--brand-white);
+  border: 6px solid var(--brand-white);
+  font-family: 'Fredoka', 'Arial', sans-serif;
+  font-weight: 600;
+  letter-spacing: 1px;
+  cursor: pointer;
+  box-shadow: 0 10px 30px rgba(108, 183, 84, 0.5);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  touch-action: manipulation;
+  animation: btnEnter 0.5s ease-out both, btnGlowPulse 2.4s ease-in-out 0.5s infinite;
+}
+.primary-btn::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -60%;
+  width: 40%;
+  height: 100%;
+  background: linear-gradient(115deg, transparent, rgba(255,255,255,0.55), transparent);
+  transform: skewX(-20deg);
+  animation: btnShine 2.8s ease-in-out infinite;
+}
+@keyframes btnShine {
+  0%   { left: -60%; }
+  35%  { left: 130%; }
+  100% { left: 130%; }
+}
+.primary-btn:hover { transform: translateY(-4px) scale(1.02); }
+.primary-btn:active { transform: scale(0.95); }
+.huge-btn {
+  padding: 30px 80px;
+  font-size: 3rem;
+  border-radius: 60px;
+  width: 80%;
+  max-width: 800px;
+}
+
+/* Instruction & Score Boxes */
+.instruction-box, .score-box {
+  padding: 60px;
+  text-align: center;
+  width: 90%;
+}
+.instruction-box h2 {
+  font-family: 'Fredoka', 'Arial', sans-serif;
+  font-size: 4rem;
+  color: var(--brand-white);
+  background: var(--brand-green-bright);
+  display: inline-block;
+  padding: 10px 40px;
+  border-radius: 40px;
+  margin-bottom: 30px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+.instruction-box p { font-size: 2.5rem; line-height: 1.4; margin-bottom: 20px; }
+.instruction-box .highlight { color: #ffeaa7; font-weight: bold; }
+
+/* Standalone pill heading, used above the instruction steps */
+.screen-heading {
+  font-family: 'Fredoka', 'Arial', sans-serif;
+  font-size: 4rem;
+  color: var(--brand-white);
+  background: var(--brand-green-bright);
+  display: inline-block;
+  padding: 10px 50px;
+  border-radius: 40px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  animation: titlePop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+/* Instruction screen: one card per step instead of a single dense text block */
+.instruction-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+  width: 92%;
+  max-width: 860px;
+}
+@keyframes stepEnter {
+  0%   { transform: translateX(-40px); opacity: 0; }
+  100% { transform: translateX(0); opacity: 1; }
+}
+.instruction-step {
+  display: flex;
+  align-items: center;
+  gap: 34px;
+  padding: 34px 44px;
+  text-align: left;
+  animation: stepEnter 0.5s ease-out both;
+}
+.instruction-step .step-icon {
+  flex-shrink: 0;
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--brand-green-bright), var(--brand-green-light));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3.2rem;
+  border: 5px solid var(--brand-white);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+.instruction-step .step-copy {
+  font-size: 2.3rem;
+  line-height: 1.35;
+  font-weight: 700;
+}
+.instruction-step .step-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  margin-right: 16px;
+  border-radius: 50%;
+  background: var(--brand-white);
+  color: var(--brand-teal-deep);
+  font-family: 'Fredoka', 'Arial', sans-serif;
+  font-weight: 700;
+  font-size: 1.9rem;
+}
+.instruction-step .highlight { color: #ffeaa7; }
+@media (prefers-reduced-motion: reduce) {
+  .screen-heading, .instruction-step { animation: none !important; }
+}
+
+.score-box h2 { font-family: 'Fredoka', 'Arial', sans-serif; font-size: 3rem; margin-bottom: 20px; letter-spacing: 2px; }
+@keyframes scorePop {
+  0%   { transform: scale(0.3); opacity: 0; }
+  60%  { transform: scale(1.15); opacity: 1; }
+  100% { transform: scale(1); }
+}
+.score-percentage {
+  font-family: 'Fredoka', 'Arial', sans-serif;
+  font-size: 10rem;
+  font-weight: 700;
+  color: var(--brand-white);
+  text-shadow: 4px 4px 0 var(--brand-green-bright);
+  margin: 0;
+  animation: scorePop 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+.score-message { font-size: 2.5rem; font-weight: bold; margin-top: 30px; }
+
+/* Game Screen Elements */
+.top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+}
+.title-text { font-family: 'Fredoka', 'Arial', sans-serif; font-weight: 600; line-height: 0.9; }
+.encare { font-size: 2.5rem; letter-spacing: 2px; }
+.puzzle { font-size: 5rem; -webkit-text-stroke: 2px rgba(0,0,0,0.1); }
+
+.reference-image {
+  width: 250px;
+  height: 250px;
+  padding: 10px;
+  position: relative;
+  animation: refFloat 3s ease-in-out infinite;
+}
+@keyframes refFloat {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-8px); }
+}
+.reference-image img { width: 100%; height: 100%; object-fit: contain; pointer-events: none; }
+
+.timer-bar {
+  width: 100%;
+  padding: 20px;
+  text-align: center;
+}
+.timer-bar h2 { font-family: 'Fredoka', 'Arial', sans-serif; font-size: 3rem; margin: 0; transition: color 0.3s; }
+.time-low { color: #ff4757; animation: timePulse 1s ease-in-out infinite; }
+@keyframes timePulse {
+  0%, 100% { transform: scale(1); }
+  50%      { transform: scale(1.12); }
+}
+
+/* Massive Puzzle Grid */
+.puzzle-board { padding: 20px; }
+.grid {
+  display: grid;
+  grid-template-columns: repeat(5, 175px);
+  grid-template-rows: repeat(5, 175px);
+  gap: 5px;
+}
+.grid-cell {
+  width: 175px;
+  height: 175px;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  transition: background 0.15s, border-color 0.15s, transform 0.15s;
+}
+
+/* Live feedback: cell currently under the dragged finger/cursor */
+.grid-cell.drag-hover {
+  background: rgba(255, 255, 255, 0.4);
+  border-color: var(--brand-white);
+  transform: scale(1.04);
+}
+
+/* A piece that is correctly placed gets a satisfying confirmation glow */
+.grid-cell.correct-cell {
+  border-color: var(--brand-green-bright);
+  box-shadow: inset 0 0 0 3px var(--brand-green-bright);
+}
+
+.puzzle-piece {
+  width: 175px;
+  height: 175px;
+  cursor: grab;
+  touch-action: none;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 0,0 C 20,10 40,-10 50,0 C 60,10 80,-10 100,0 C 90,20 110,40 100,50 C 90,60 110,80 100,100 C 80,90 60,110 50,100 C 40,90 20,110 0,100 C 10,80 -10,60 0,50 C 10,40 -10,20 0,0 Z' /%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 0,0 C 20,10 40,-10 50,0 C 60,10 80,-10 100,0 C 90,20 110,40 100,50 C 90,60 110,80 100,100 C 80,90 60,110 50,100 C 40,90 20,110 0,100 C 10,80 -10,60 0,50 C 10,40 -10,20 0,0 Z' /%3E%3C/svg%3E");
+  -webkit-mask-size: cover;
+  mask-size: cover;
+  transition: filter 0.2s, opacity 0.15s, transform 0.15s;
+}
+.puzzle-piece:hover {
+  transform: scale(1.05);
+}
+
+/* Correctly-placed piece gets a soft green glow plus a one-shot celebration pop */
+@keyframes piecePop {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.18); }
+  100% { transform: scale(1); }
+}
+.puzzle-piece.correct-piece {
+  filter: drop-shadow(0 0 10px rgba(108, 183, 84, 0.9));
+  animation: piecePop 0.35s ease-out;
+}
+
+/* The original tile hides while its ghost is being dragged, so it doesn't double-render */
+.puzzle-piece.is-dragging-source {
+  opacity: 0.15;
+}
+
+/* Floating piece that follows the pointer/finger during a drag */
+.drag-ghost {
+  position: fixed;
+  z-index: 1000;
+  pointer-events: none;
+  touch-action: none;
+  transform: scale(1.12);
+  filter: drop-shadow(0 12px 20px rgba(0, 0, 0, 0.35));
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 0,0 C 20,10 40,-10 50,0 C 60,10 80,-10 100,0 C 90,20 110,40 100,50 C 90,60 110,80 100,100 C 80,90 60,110 50,100 C 40,90 20,110 0,100 C 10,80 -10,60 0,50 C 10,40 -10,20 0,0 Z' /%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 0,0 C 20,10 40,-10 50,0 C 60,10 80,-10 100,0 C 90,20 110,40 100,50 C 90,60 110,80 100,100 C 80,90 60,110 50,100 C 40,90 20,110 0,100 C 10,80 -10,60 0,50 C 10,40 -10,20 0,0 Z' /%3E%3C/svg%3E");
+  -webkit-mask-size: cover;
+  mask-size: cover;
+}
+
+/* Touch-Friendly Bottom Tray */
+.bottom-tray {
+  width: 100%;
+  flex: 1;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  justify-content: center;
+  gap: 15px;
+  padding: 30px;
+  border-radius: 20px;
+  transition: background 0.15s, border-color 0.15s;
+}
+.bottom-tray.drag-hover {
+  background: rgba(255, 255, 255, 0.35);
+  border-color: var(--brand-white);
+}
+.in-tray {
+  width: 140px;
+  height: 140px;
+}
+
+/* Final Screen Specifics */
+.slogan-box { text-align: center; }
+.slogan { font-family: 'Fredoka', 'Arial', sans-serif; font-size: 3rem; margin-bottom: 10px; }
+.encare-logo {
+  font-family: 'Fredoka', 'Arial', sans-serif;
+  font-size: 4rem;
+  color: var(--brand-green-bright);
+  background: white;
+  padding: 10px 30px;
+  border-radius: 20px;
+  display: inline-block;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+/* Respect users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .app-container::before,
+  .app-container::after,
+  .main-title,
+  .primary-btn,
+  .primary-btn::after,
+  .mascot-jump,
+  .score-percentage,
+  .reference-image,
+  .time-low,
+  .puzzle-piece.correct-piece {
+    animation: none !important;
+  }
+}
