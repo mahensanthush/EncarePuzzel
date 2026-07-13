@@ -11,6 +11,13 @@ const TIME_LIMIT = 60; // 1 minute per the brief
 // Mascot artwork: shown on Welcome / Score(hero) / Final screens only.
 const MASCOT_IMAGE_URL = "/new_moscujt-removebg-preview.png"; // Updated Mascot File
 
+// EnCare brand logo (mark only, no wordmark baked in) — shown on Welcome, Game top bar, and Score screens.
+// TODO: swap this placeholder for the real logo asset.
+const LOGO_IMAGE_URL = "/encare-logo.png";
+
+// White "Clean Spaces, Happy Pets" logo lockup — used ONLY on the Final (thank you) screen.
+const FINAL_LOGO_URL = "/white-logo-happy-pet.png";
+
 // Puzzle photo: the image that actually gets cut into tiles and played.
 // TODO: swap this placeholder for the real photo you want players to reassemble
 // (reference thumbnail, grid tiles, tray tiles, and the drag ghost all pull from this one).
@@ -74,7 +81,7 @@ const PuzzleGame = () => {
     } else if (percentage >= 50) {
       message = "Good try! Keep going!";
     } else {
-      message = "Nice effort! Try again and complete the mascot!";
+      message = "Nice try! Complete the mascot to score higher.";
     }
 
     setScoreData({ percentage, message, isHero });
@@ -247,10 +254,12 @@ const PuzzleGame = () => {
           <AnimatePresence mode="wait">
             {gameState === "WELCOME" && (
               <motion.div key="welcome" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="screen-container">
-                <h1 className="main-title">ENCARE<br />PUZZLE</h1>
+                <div className="brand-lockup brand-lockup-hero">
+                  <img className="brand-logo brand-logo-hero" src={LOGO_IMAGE_URL} alt="EnCare logo" draggable={false} />
+                </div>
                 <div className="mascot-display mascot-jump mascot-hero" style={{ backgroundImage: `url('${MASCOT_IMAGE_URL}')` }}></div>
-                <h2 className="subtitle-text">Let's match the EnCare Mascot!</h2>
-                <button className="primary-btn huge-btn" onClick={() => setGameState("INSTRUCTION")}>START</button>
+                <h2 className="subtitle-text">Ready to Meet Our Mascot?</h2>
+                <button className="primary-btn huge-btn" onClick={() => setGameState("INSTRUCTION")}>LET’S PLAY</button>
               </motion.div>
             )}
 
@@ -260,15 +269,15 @@ const PuzzleGame = () => {
                 <div className="instruction-steps">
                   <div className="instruction-step glass-panel" style={{ animationDelay: "0.05s" }}>
                     <div className="step-icon">🖐️</div>
-                    <p className="step-copy"><span className="step-num">1</span>Drag each piece from the tray onto the grid.</p>
+                    <p className="step-copy"><span className="step-num">1</span>Drag each puzzle piece onto the grid.</p>
                   </div>
                   <div className="instruction-step glass-panel" style={{ animationDelay: "0.15s" }}>
                     <div className="step-icon">🧩</div>
-                    <p className="step-copy"><span className="step-num">2</span>Use the photo in the corner as your guide to place every tile.</p>
+                    <p className="step-copy"><span className="step-num">2</span>Use the corner photo as your guide.</p>
                   </div>
                   <div className="instruction-step glass-panel" style={{ animationDelay: "0.25s" }}>
                     <div className="step-icon">⏱️</div>
-                    <p className="step-copy"><span className="step-num">3</span><span className="highlight">You've got 1 minute</span> — complete it before time runs out!</p>
+                    <p className="step-copy"><span className="step-num">3</span><span className="highlight">Complete the puzzle in 1 minute!</span></p>
                   </div>
                 </div>
                 <button className="primary-btn huge-btn" onClick={initGame}>PLAY NOW</button>
@@ -279,10 +288,7 @@ const PuzzleGame = () => {
               <motion.div key="game" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="screen-container justify-top">
                 <header className="top-bar">
                   <div className="logo-container">
-                    <h1 className="title-text">
-                      <span className="encare">ENCARE</span><br />
-                      <span className="puzzle">PUZZLE</span>
-                    </h1>
+                    <img className="brand-logo brand-logo-bar" src={LOGO_IMAGE_URL} alt="EnCare logo" draggable={false} />
                   </div>
                   <div className="reference-image glass-panel">
                     <img src={PUZZLE_IMAGE_URL} alt="Reference puzzle photo" draggable={false} />
@@ -344,6 +350,7 @@ const PuzzleGame = () => {
 
             {gameState === "SCORE" && (
               <motion.div key="score" initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }} className="screen-container">
+                <img className="brand-logo brand-logo-score" src={LOGO_IMAGE_URL} alt="EnCare logo" draggable={false} />
                 <div className="score-box glass-panel">
                   <h2>YOUR SCORE</h2>
                   <h1 className="score-percentage">{scoreData.percentage}%</h1>
@@ -358,10 +365,7 @@ const PuzzleGame = () => {
               <motion.div key="final" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="screen-container">
                 <h1 className="main-title">Thank you<br />for playing!</h1>
                 <div className="mascot-display" style={{ backgroundImage: `url('${MASCOT_IMAGE_URL}')` }}></div>
-                <div className="slogan-box">
-                  <h2 className="slogan">Clean Spaces, Happy Pets.</h2>
-                  <h3 className="encare-logo">ENCARE</h3>
-                </div>
+                <img className="final-logo" src={FINAL_LOGO_URL} alt="Clean Spaces, Happy Pets - EnCare" draggable={false} />
                 <button className="primary-btn huge-btn" onClick={() => setGameState("WELCOME")}>PLAY AGAIN</button>
               </motion.div>
             )}

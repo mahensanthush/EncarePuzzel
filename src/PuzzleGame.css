@@ -42,6 +42,7 @@
   width: 1080px;
   height: 1920px;
   background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cg fill='rgba(255,255,255,0.16)'%3E%3Cg transform='translate(90,100) rotate(-15) scale(1.0)'%3E%3Cellipse cx='0' cy='13' rx='18' ry='14'/%3E%3Cellipse cx='-21' cy='-13' rx='8' ry='10'/%3E%3Cellipse cx='-8' cy='-26' rx='8' ry='10'/%3E%3Cellipse cx='8' cy='-26' rx='8' ry='10'/%3E%3Cellipse cx='21' cy='-13' rx='8' ry='10'/%3E%3C/g%3E%3Cg transform='translate(250,90) rotate(25) scale(0.85)'%3E%3Cellipse cx='0' cy='13' rx='18' ry='14'/%3E%3Cellipse cx='-21' cy='-13' rx='8' ry='10'/%3E%3Cellipse cx='-8' cy='-26' rx='8' ry='10'/%3E%3Cellipse cx='8' cy='-26' rx='8' ry='10'/%3E%3Cellipse cx='21' cy='-13' rx='8' ry='10'/%3E%3C/g%3E%3Cg transform='translate(150,230) rotate(-25) scale(1.1)'%3E%3Cellipse cx='0' cy='13' rx='18' ry='14'/%3E%3Cellipse cx='-21' cy='-13' rx='8' ry='10'/%3E%3Cellipse cx='-8' cy='-26' rx='8' ry='10'/%3E%3Cellipse cx='8' cy='-26' rx='8' ry='10'/%3E%3Cellipse cx='21' cy='-13' rx='8' ry='10'/%3E%3C/g%3E%3Cg transform='translate(320,250) rotate(15) scale(0.85)'%3E%3Cellipse cx='0' cy='13' rx='18' ry='14'/%3E%3Cellipse cx='-21' cy='-13' rx='8' ry='10'/%3E%3Cellipse cx='-8' cy='-26' rx='8' ry='10'/%3E%3Cellipse cx='8' cy='-26' rx='8' ry='10'/%3E%3Cellipse cx='21' cy='-13' rx='8' ry='10'/%3E%3C/g%3E%3Cg transform='translate(90,320) rotate(35) scale(0.75)'%3E%3Cellipse cx='0' cy='13' rx='18' ry='14'/%3E%3Cellipse cx='-21' cy='-13' rx='8' ry='10'/%3E%3Cellipse cx='-8' cy='-26' rx='8' ry='10'/%3E%3Cellipse cx='8' cy='-26' rx='8' ry='10'/%3E%3Cellipse cx='21' cy='-13' rx='8' ry='10'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E") 0 0/400px 400px repeat,
     radial-gradient(circle at 15% 10%, rgba(255,255,255,0.20) 0%, rgba(255,255,255,0) 40%),
     radial-gradient(circle at 85% 90%, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0) 45%),
     linear-gradient(135deg, var(--brand-teal), var(--brand-green-light));
@@ -51,6 +52,13 @@
   color: var(--brand-white);
   position: relative;
   overflow: hidden;
+  animation: pawDrift 30s linear infinite;
+}
+/* Diagonal drift exactly one tile (400px) per loop so it repeats seamlessly;
+   only the paw layer's position changes, the gradient layers stay put. */
+@keyframes pawDrift {
+  0%   { background-position: 0 0, 0 0, 0 0, 0 0; }
+  100% { background-position: 400px 400px, 0 0, 0 0, 0 0; }
 }
 
 
@@ -69,6 +77,13 @@
 .screen-container.justify-top {
   justify-content: flex-start;
   gap: 30px;
+}
+/* Extra breathing room for the Welcome and Instruction screens only:
+   pull content off center so there's visible empty space at the top,
+   rather than symmetric padding which centering absorbs equally. */
+.screen-container.screen-container-spacious {
+  justify-content: flex-start;
+  padding: 180px 60px 60px;
 }
 
 /* Typography & Titles */
@@ -115,6 +130,47 @@
 .subtitle-text::after {
   content: "\1F43E";
   font-size: 2rem;
+}
+
+/* Brand logo lockups: mark + wordmark, used on Welcome / Game bar / Score */
+.brand-lockup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0px;
+}
+.brand-logo {
+  object-fit: contain;
+  pointer-events: none;
+  filter: drop-shadow(0 6px 14px rgba(0,0,0,0.18));
+}
+
+/*
+  Current logo asset (encare-logo.png) trims to a ~2.74:1 band. Every box
+  below is sized to that same ratio so object-fit: contain doesn't leave
+  invisible padding around the mark.
+*/
+.brand-logo-hero {
+  width: 620px;
+  height: 226px;      /* 620 / 2.74 */
+  margin-bottom: 20px;
+  animation: titlePop 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+.brand-logo-bar {
+  width: 411px;        /* 150 * 2.74 */
+  height: 150px;
+  margin-bottom: 4px;
+}
+.brand-logo-score {
+  width: 466px;        /* 170 * 2.74 */
+  height: 170px;
+  margin-bottom: 10px;
+}
+.score-lockup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0px;
 }
 
 /* Mascot Display */
@@ -280,7 +336,20 @@
   .screen-heading, .instruction-step { animation: none !important; }
 }
 
-.score-box h2 { font-family: 'Fredoka', 'Arial', sans-serif; font-size: 3rem; margin-bottom: 20px; letter-spacing: 2px; }
+.score-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.score-box h2 {
+  font-family: 'Fredoka', 'Arial', sans-serif;
+  font-size: 3rem;
+  line-height: 1.2;
+  margin-bottom: 20px;
+  letter-spacing: 2px;
+  text-align: center;
+}
 @keyframes scorePop {
   0%   { transform: scale(0.3); opacity: 0; }
   60%  { transform: scale(1.15); opacity: 1; }
@@ -290,12 +359,21 @@
   font-family: 'Fredoka', 'Arial', sans-serif;
   font-size: 10rem;
   font-weight: 700;
+  line-height: 1.15;
   color: var(--brand-white);
   text-shadow: 4px 4px 0 var(--brand-green-bright);
-  margin: 0;
+  margin: 0 0 30px 0;
+  text-align: center;
   animation: scorePop 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) both;
 }
-.score-message { font-size: 2.5rem; font-weight: bold; margin-top: 30px; }
+.score-message {
+  font-size: 2.5rem;
+  font-weight: bold;
+  line-height: 1.35;
+  margin-top: 0;
+  text-align: center;
+  max-width: 100%;
+}
 
 /* Game Screen Elements */
 .top-bar {
@@ -304,10 +382,11 @@
   align-items: flex-start;
   width: 100%;
 }
-.title-text { font-family: 'Fredoka', 'Arial', sans-serif; font-weight: 600; line-height: 0.9; }
-.encare { font-size: 2.5rem; letter-spacing: 2px; }
-.puzzle { font-size: 5rem; -webkit-text-stroke: 2px rgba(0,0,0,0.1); }
-
+.logo-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
 .reference-image {
   width: 250px;
   height: 250px;
@@ -434,21 +513,23 @@
 }
 
 /* Final Screen Specifics */
-.slogan-box { text-align: center; }
-.slogan { font-family: 'Fredoka', 'Arial', sans-serif; font-size: 3rem; margin-bottom: 10px; }
-.encare-logo {
-  font-family: 'Fredoka', 'Arial', sans-serif;
-  font-size: 4rem;
-  color: var(--brand-green-bright);
-  background: white;
-  padding: 10px 30px;
-  border-radius: 20px;
-  display: inline-block;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+/*
+  Final-screen logo (white-logo-happy-pet.png) replaces the old white
+  "ENCARE" text pill. Source art trims to a ~3.39:1 band, so the box below
+  matches that ratio to avoid the same invisible-padding issue the main
+  brand logo had.
+*/
+.final-logo {
+  width: 750px;
+  height: 221px;   /* 750 / 3.39 */
+  object-fit: contain;
+  pointer-events: none;
+  filter: drop-shadow(0 6px 14px rgba(0,0,0,0.18));
 }
 
 /* Respect users who prefer reduced motion */
 @media (prefers-reduced-motion: reduce) {
+  .app-container,
   .app-container::before,
   .app-container::after,
   .main-title,
@@ -458,7 +539,8 @@
   .score-percentage,
   .reference-image,
   .time-low,
-  .puzzle-piece.correct-piece {
+  .puzzle-piece.correct-piece,
+  .brand-logo-hero {
     animation: none !important;
   }
 }
