@@ -6,7 +6,7 @@ import "./PuzzleGame.css";
 
 const GRID_SIZE = 5;
 const TOTAL_TILES = GRID_SIZE * GRID_SIZE;
-const TIME_LIMIT = 60; // 1 minute per the brief
+const TIME_LIMIT = 80; // 1 minute per the brief
 
 // Mascot artwork: shown on Welcome / Score(hero) / Final screens only.
 const MASCOT_IMAGE_URL = "/new_moscujt-removebg-preview.png"; // Updated Mascot File
@@ -72,16 +72,16 @@ const PuzzleGame = () => {
     let isHero = false;
 
     if (percentage === 100) {
-      message = "You are an EnCare Pet Hero!";
+      message = "Excellent! You completed the EnCare Mascot like a pro!";
       isHero = true;
     } else if (percentage >= 90) {
-      message = "Excellent! You completed the EnCare Mascot like a pro!";
-    } else if (percentage >= 70) {
       message = "Great job! You are almost there!";
+    } else if (percentage >= 70) {
+      message = "Good try! Keep going!";
     } else if (percentage >= 50) {
       message = "Good try! Keep going!";
     } else {
-      message = "Nice try! Complete the mascot to score higher.";
+      message = "Nice effort! Try again and complete the mascot!";
     }
 
     setScoreData({ percentage, message, isHero });
